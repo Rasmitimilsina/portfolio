@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { USER_AVATAR_BASE64 } from '../assets/avatarBase64.js';
 
 export class CoasterScene {
   constructor(canvas) {
@@ -76,20 +77,14 @@ export class CoasterScene {
     const cardHeight = 2.9;
     const cardDepth = 0.08;
 
-    // Load Natural User Portrait Image Texture
+    // Load Guaranteed Base64 User Portrait Image Texture (Zero Network Request Required)
     const textureLoader = new THREE.TextureLoader();
-    const userAvatarTexture = textureLoader.load('./user-avatar.jpg', (tex) => {
+    const userAvatarTexture = textureLoader.load(USER_AVATAR_BASE64, (tex) => {
       tex.colorSpace = THREE.SRGBColorSpace;
-      if (this.frontMat) { this.frontMat.map = tex; this.frontMat.needsUpdate = true; }
-      if (this.backMat) { this.backMat.map = tex; this.backMat.needsUpdate = true; }
+      tex.needsUpdate = true;
+      if (this.frontMat) { this.frontMat.needsUpdate = true; }
+      if (this.backMat) { this.backMat.needsUpdate = true; }
       this.renderer.render(this.scene, this.camera);
-    }, undefined, () => {
-      textureLoader.load('./assets/user-avatar.jpg', (tex2) => {
-        tex2.colorSpace = THREE.SRGBColorSpace;
-        if (this.frontMat) { this.frontMat.map = tex2; this.frontMat.needsUpdate = true; }
-        if (this.backMat) { this.backMat.map = tex2; this.backMat.needsUpdate = true; }
-        this.renderer.render(this.scene, this.camera);
-      });
     });
     userAvatarTexture.colorSpace = THREE.SRGBColorSpace;
 
