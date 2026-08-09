@@ -74,10 +74,29 @@ export class CoasterScene {
 
     // Load Natural User Portrait Image Texture
     const textureLoader = new THREE.TextureLoader();
-    const naturalUserTexture = textureLoader.load('./user-avatar.jpg', () => {
-      this.renderer.render(this.scene, this.camera);
-    });
-    naturalUserTexture.colorSpace = THREE.SRGBColorSpace;
+    const loadAvatarTexture = () => {
+      textureLoader.load('./user-avatar.jpg', (tex) => {
+        tex.colorSpace = THREE.SRGBColorSpace;
+        if (this.frontMat) { this.frontMat.map = tex; this.frontMat.needsUpdate = true; }
+        if (this.backMat) { this.backMat.map = tex; this.backMat.needsUpdate = true; }
+        this.renderer.render(this.scene, this.camera);
+      }, undefined, () => {
+        textureLoader.load('./assets/user-avatar.jpg', (tex2) => {
+          tex2.colorSpace = THREE.SRGBColorSpace;
+          if (this.frontMat) { this.frontMat.map = tex2; this.frontMat.needsUpdate = true; }
+          if (this.backMat) { this.backMat.map = tex2; this.backMat.needsUpdate = true; }
+          this.renderer.render(this.scene, this.camera);
+        }, undefined, () => {
+          textureLoader.load('/user-avatar.jpg', (tex3) => {
+            tex3.colorSpace = THREE.SRGBColorSpace;
+            if (this.frontMat) { this.frontMat.map = tex3; this.frontMat.needsUpdate = true; }
+            if (this.backMat) { this.backMat.map = tex3; this.backMat.needsUpdate = true; }
+            this.renderer.render(this.scene, this.camera);
+          });
+        });
+      });
+    };
+    loadAvatarTexture();
 
     const cardWidth = 2.3;
     const cardHeight = 2.9;
@@ -100,7 +119,6 @@ export class CoasterScene {
     // 2. Front Face with Natural High-Quality Portrait Image
     const frontGeo = new THREE.PlaneGeometry(cardWidth - 0.1, cardHeight - 0.1);
     this.frontMat = new THREE.MeshPhysicalMaterial({
-      map: naturalUserTexture,
       roughness: 0.15,
       metalness: 0.05,
       clearcoat: 1.0,
@@ -115,7 +133,6 @@ export class CoasterScene {
     // 3. Back Face with Natural High-Quality Portrait Image
     const backGeo = new THREE.PlaneGeometry(cardWidth - 0.1, cardHeight - 0.1);
     this.backMat = new THREE.MeshPhysicalMaterial({
-      map: naturalUserTexture,
       roughness: 0.15,
       metalness: 0.05,
       clearcoat: 1.0,
