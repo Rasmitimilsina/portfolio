@@ -15,7 +15,7 @@ export class CoasterScene {
       imageRotX: 0.08,
       imageRotY: -0.28,
       imageRotZ: 0,
-      imagePosX: 1.4,
+      imagePosX: 2.1,
       imagePosY: 0.08,
       basePosY: 0.08,
       imageScale: 1.1,
@@ -314,22 +314,22 @@ export class CoasterScene {
     this.renderer.setSize(width, height);
 
     if (width < 768) {
-      this.scrollState.imagePosX = 0;
+      this.scrollState.imagePosX = 0.3;
       this.scrollState.basePosY = -0.25;
       this.scrollState.imageScale = 0.72;
       this.camera.position.z = 8.8;
     } else if (width < 1024) {
-      this.scrollState.imagePosX = 1.1;
+      this.scrollState.imagePosX = 1.5;
       this.scrollState.basePosY = 0.05;
       this.scrollState.imageScale = 0.92;
       this.camera.position.z = 8.0;
     } else if (width < 1280) {
-      this.scrollState.imagePosX = 1.35;
+      this.scrollState.imagePosX = 1.9;
       this.scrollState.basePosY = 0.05;
       this.scrollState.imageScale = 1.05;
       this.camera.position.z = 7.8;
     } else {
-      this.scrollState.imagePosX = 1.65;
+      this.scrollState.imagePosX = 2.2;
       this.scrollState.basePosY = 0.08;
       this.scrollState.imageScale = 1.15;
       this.camera.position.z = 7.5;
