@@ -77,9 +77,9 @@ export class CoasterScene {
     const cardHeight = 2.9;
     const cardDepth = 0.08;
 
-    // Load Guaranteed Base64 User Portrait Image Texture (Zero Network Request Required)
+    // Load High Quality User Portrait Image Texture with Dual DOM/WebGL Fallback
     const textureLoader = new THREE.TextureLoader();
-    const userAvatarTexture = textureLoader.load(USER_AVATAR_BASE64, (tex) => {
+    let userAvatarTexture = textureLoader.load(USER_AVATAR_BASE64, (tex) => {
       tex.colorSpace = THREE.SRGBColorSpace;
       tex.needsUpdate = true;
       if (this.frontMat) { this.frontMat.needsUpdate = true; }
@@ -87,6 +87,24 @@ export class CoasterScene {
       this.renderer.render(this.scene, this.camera);
     });
     userAvatarTexture.colorSpace = THREE.SRGBColorSpace;
+
+    // Native DOM HTMLImageElement fallback loader
+    const domImg = new Image();
+    domImg.onload = () => {
+      const domTexture = new THREE.Texture(domImg);
+      domTexture.colorSpace = THREE.SRGBColorSpace;
+      domTexture.needsUpdate = true;
+      if (this.frontMat) {
+        this.frontMat.map = domTexture;
+        this.frontMat.needsUpdate = true;
+      }
+      if (this.backMat) {
+        this.backMat.map = domTexture;
+        this.backMat.needsUpdate = true;
+      }
+      this.renderer.render(this.scene, this.camera);
+    };
+    domImg.src = USER_AVATAR_BASE64;
 
     // 1. Sleek Dark Metallic Card Frame Base
     const frameGeo = new THREE.BoxGeometry(cardWidth, cardHeight, cardDepth);
@@ -104,12 +122,10 @@ export class CoasterScene {
 
     // 2. Front Face with Natural High-Quality Portrait Image
     const frontGeo = new THREE.PlaneGeometry(cardWidth - 0.1, cardHeight - 0.1);
-    this.frontMat = new THREE.MeshPhysicalMaterial({
+    this.frontMat = new THREE.MeshStandardMaterial({
       map: userAvatarTexture,
-      roughness: 0.15,
-      metalness: 0.05,
-      clearcoat: 1.0,
-      clearcoatRoughness: 0.05,
+      roughness: 0.3,
+      metalness: 0.0,
       transparent: true,
       opacity: 1.0
     });
@@ -119,12 +135,10 @@ export class CoasterScene {
 
     // 3. Back Face with Natural High-Quality Portrait Image
     const backGeo = new THREE.PlaneGeometry(cardWidth - 0.1, cardHeight - 0.1);
-    this.backMat = new THREE.MeshPhysicalMaterial({
+    this.backMat = new THREE.MeshStandardMaterial({
       map: userAvatarTexture,
-      roughness: 0.15,
-      metalness: 0.05,
-      clearcoat: 1.0,
-      clearcoatRoughness: 0.05,
+      roughness: 0.3,
+      metalness: 0.0,
       transparent: true,
       opacity: 1.0
     });
