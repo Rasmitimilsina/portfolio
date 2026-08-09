@@ -74,7 +74,7 @@ export class CoasterScene {
 
     // Load Natural User Portrait Image Texture
     const textureLoader = new THREE.TextureLoader();
-    const naturalUserTexture = textureLoader.load('/user-avatar.jpg', () => {
+    const naturalUserTexture = textureLoader.load('./user-avatar.jpg', () => {
       this.renderer.render(this.scene, this.camera);
     });
     naturalUserTexture.colorSpace = THREE.SRGBColorSpace;
