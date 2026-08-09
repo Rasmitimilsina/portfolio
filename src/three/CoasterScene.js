@@ -76,6 +76,23 @@ export class CoasterScene {
     const cardHeight = 2.9;
     const cardDepth = 0.08;
 
+    // Load Natural User Portrait Image Texture
+    const textureLoader = new THREE.TextureLoader();
+    const userAvatarTexture = textureLoader.load('./user-avatar.jpg', (tex) => {
+      tex.colorSpace = THREE.SRGBColorSpace;
+      if (this.frontMat) { this.frontMat.map = tex; this.frontMat.needsUpdate = true; }
+      if (this.backMat) { this.backMat.map = tex; this.backMat.needsUpdate = true; }
+      this.renderer.render(this.scene, this.camera);
+    }, undefined, () => {
+      textureLoader.load('./assets/user-avatar.jpg', (tex2) => {
+        tex2.colorSpace = THREE.SRGBColorSpace;
+        if (this.frontMat) { this.frontMat.map = tex2; this.frontMat.needsUpdate = true; }
+        if (this.backMat) { this.backMat.map = tex2; this.backMat.needsUpdate = true; }
+        this.renderer.render(this.scene, this.camera);
+      });
+    });
+    userAvatarTexture.colorSpace = THREE.SRGBColorSpace;
+
     // 1. Sleek Dark Metallic Card Frame Base
     const frameGeo = new THREE.BoxGeometry(cardWidth, cardHeight, cardDepth);
     const frameMat = new THREE.MeshStandardMaterial({
@@ -93,6 +110,7 @@ export class CoasterScene {
     // 2. Front Face with Natural High-Quality Portrait Image
     const frontGeo = new THREE.PlaneGeometry(cardWidth - 0.1, cardHeight - 0.1);
     this.frontMat = new THREE.MeshPhysicalMaterial({
+      map: userAvatarTexture,
       roughness: 0.15,
       metalness: 0.05,
       clearcoat: 1.0,
@@ -107,6 +125,7 @@ export class CoasterScene {
     // 3. Back Face with Natural High-Quality Portrait Image
     const backGeo = new THREE.PlaneGeometry(cardWidth - 0.1, cardHeight - 0.1);
     this.backMat = new THREE.MeshPhysicalMaterial({
+      map: userAvatarTexture,
       roughness: 0.15,
       metalness: 0.05,
       clearcoat: 1.0,
@@ -131,28 +150,6 @@ export class CoasterScene {
     this.glowMesh = new THREE.Mesh(glowGeo, this.glowMaterial);
     this.glowMesh.position.z = 0;
     this.imageGroup.add(this.glowMesh);
-
-    // Load Natural User Portrait Image Texture (Called AFTER frontMat & backMat exist!)
-    const textureLoader = new THREE.TextureLoader();
-    const applyTexture = (tex) => {
-      tex.colorSpace = THREE.SRGBColorSpace;
-      tex.needsUpdate = true;
-      if (this.frontMat) { this.frontMat.map = tex; this.frontMat.needsUpdate = true; }
-      if (this.backMat) { this.backMat.map = tex; this.backMat.needsUpdate = true; }
-      this.renderer.render(this.scene, this.camera);
-    };
-
-    textureLoader.load('./user-avatar.jpg', (tex) => {
-      applyTexture(tex);
-    }, undefined, () => {
-      textureLoader.load('./assets/user-avatar.jpg', (tex2) => {
-        applyTexture(tex2);
-      }, undefined, () => {
-        textureLoader.load('/user-avatar.jpg', (tex3) => {
-          applyTexture(tex3);
-        });
-      });
-    });
   }
 
   createParticleDestructionSystem() {
