@@ -76,9 +76,8 @@ export function initScrollAnimations(sceneInstance) {
     }
   };
 
-  animateSectionCards('#certificates .group', '#certificates');
-  animateSectionCards('#experiences .group', '#experiences');
   animateSectionCards('#education .group', '#education');
+  animateSectionCards('#certificates .group', '#certificates');
   animateSectionCards('#skills .group', '#skills');
 
   // Refresh ScrollTrigger after DOM setup
