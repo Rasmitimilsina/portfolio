@@ -34,12 +34,12 @@ document.addEventListener('DOMContentLoaded', () => {
           // ABOUT ME STATE
           badgeText.innerText = 'ABOUT RASMI TIMILSINA';
           heroTitle.innerHTML = 'ABOUT<br/>ME.';
-          heroDesc.innerHTML = `<span class="block mb-2">I’m a Computing student with a strong interest in <strong class="text-white font-bold">Data Analytics and Artificial Intelligence</strong>. I enjoy working with data, discovering meaningful insights, and using technology to solve real-world problems.</span><span class="block mb-2">I’m continuously developing my skills in <strong class="text-white font-bold">Python, SQL, Power BI, data visualization, and AI</strong>, while working on projects that allow me to turn ideas and data into practical solutions.</span><span class="block">I’m curious, eager to learn, and passionate about growing as a <strong class="text-white font-bold">Data Analyst and AI enthusiast</strong>.</span>`;
+          heroDesc.innerHTML = `<span class="block mb-2">I'm a Computing student with a strong passion for <strong class="text-white font-bold">Software Engineering and Quality Assurance</strong>. I'm dedicated to building robust, reliable applications through comprehensive testing strategies and best practices.</span><span class="block mb-2">I'm developing my expertise in <strong class="text-white font-bold">QA automation, test planning, performance testing, and software development</strong>, while working on projects that ensure quality at every level and deliver exceptional user experiences.</span><span class="block">I'm detail-oriented, methodical, and passionate about growing as a <strong class="text-white font-bold">Software Engineer and QA Specialist</strong>.</span>`;
         } else {
           // INTRO STATE
-          badgeText.innerText = 'Data Analyst & AI Learner';
+          badgeText.innerText = 'Software Engineer | QA Enthusiast';
           heroTitle.innerHTML = 'RASMI<br/>TIMILSINA.';
-          heroDesc.innerText = 'Aspiring Data Analyst passionate about AI, data-driven insights, and solving real-world problems.';
+          heroDesc.innerText = 'Passionate about ensuring software quality through comprehensive testing strategies and best practices. Building robust applications with a focus on reliability, performance, and user experience.';
         }
 
         heroTitle.style.opacity = '1';
